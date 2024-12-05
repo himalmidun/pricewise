@@ -1,6 +1,6 @@
 import { getProductById, getSimilarProducts } from '@/lib/actions'
 import { redirect } from 'next/navigation'
-import React from 'react'
+import React, { use } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Product } from '@/types'
@@ -9,14 +9,19 @@ import PriceInfoCard from '@/components/PriceInfoCard'
 import ProductCard from '@/components/ProductCard'
 import Modal from '@/components/Modal'
 
-type Props = {
-  params: {id: string}
-}
+// type Props = { params: {id: string} }
+type Params = Promise<{id: string}>
 
-const ProductDetails = async ({ params }: Props) => {
+// const ProductDetails = async ({ params }: Props) => {
+  const ProductDetails = async (props: { params: Params }) => {
   // const product  = await getProductById(params.id);
-  const { id } = await params;
-  const product = await getProductById(id);
+  // const { id } = await params;
+  // const product = await getProductById(id);
+
+  const params = use(props.params);
+  const id = params.id;
+
+  const product  = await getProductById(params.id);
 
   if(!product) redirect('/')
 
