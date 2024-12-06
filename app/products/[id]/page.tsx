@@ -9,7 +9,7 @@ import PriceInfoCard from '@/components/PriceInfoCard'
 import ProductCard from '@/components/ProductCard'
 import Modal from '@/components/Modal'
 
-type Props = { params: {id: string} }
+type Props = { params: {id: any} }
 // type Params = Promise<{id: string}>
 
 const ProductDetails = async ({ params }: Props) => {
@@ -17,6 +17,10 @@ const ProductDetails = async ({ params }: Props) => {
   // const product  = await getProductById(params.id);
   
   const { id } = await params;
+  // const { id } = {async (params: any) => {
+  //   await params;
+  //   return params;
+  // }}
   const product = await getProductById(id);
 
   // const params = use(props.params);
