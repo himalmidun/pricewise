@@ -20,25 +20,26 @@ const HeroCarousel = () => {
   ]
   
   
-  useEffect(() => {
-    // Only execute the side-effect (fetching product images) when the component mounts
-    const fetchData = async () => {
-      try {
-        const images = await getProductImages();
-        setProductImages(images || []);
-      } catch (error) {
-        console.error("Error fetching product images:", error);
-        setProductImages([]); // Handle the error, maybe set default images
-      } finally {
-        setIsLoading(false); // Set loading to false after fetching
-      }
-    };
+  // useEffect(() => {
+  //   // Only execute the side-effect (fetching product images) when the component mounts
+  //   const fetchData = async () => {
+  //     try {
+  //       const images = await getProductImages();
+  //       setProductImages(images || []);
+  //     } catch (error) {
+  //       console.error("Error fetching product images:", error);
+  //       setProductImages([]); // Handle the error, maybe set default images
+  //     } finally {
+  //       setIsLoading(false); // Set loading to false after fetching
+  //     }
+  //   };
   
-    fetchData(); // Call the fetch function
-  }, []); // Empty dependency array ensures it runs only once after mount
+  //   fetchData(); // Call the fetch function
+  // }, []); // Empty dependency array ensures it runs only once after mount
   
   
-  const carouselImages = productImages.length > 0 ? productImages : heroImages;
+  // const carouselImages = productImages.length > 0 ? productImages : heroImages;
+  const carouselImages = heroImages;
   
 
   return (
