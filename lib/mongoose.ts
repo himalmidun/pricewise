@@ -4,6 +4,7 @@ let isConnected = false; //variable to check connection status
 
 export const connectToDB = async () => {
     mongoose.set('strictQuery', true);
+    mongoose.set('debug', true);
 
     if(!process.env.MONGODB_URI) return console.log('MONGODB_URI is not defined');
 
