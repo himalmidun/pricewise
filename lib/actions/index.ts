@@ -18,7 +18,7 @@ export async function scrapeAndStoreProduct(productUrl: string) {
     if (!productUrl) return;
 
     try {
-        connectToDB();
+        await connectToDB();
 
         const scrapedProduct = await scrapeAmazonProduct(productUrl);
 
@@ -54,7 +54,7 @@ export async function scrapeAndStoreProduct(productUrl: string) {
 export async function getProductById(productId: string) {
 
     try {
-        connectToDB();
+        await connectToDB();
 
         const product = await Product.findOne({ _id: productId });
 
@@ -68,7 +68,7 @@ export async function getProductById(productId: string) {
 
 export async function getAllProducts() {
     try {
-        connectToDB();
+        await connectToDB();
 
         const products = await Product.find({}).limit(6);
         console.log(`All products: ${products}`)
@@ -80,7 +80,7 @@ export async function getAllProducts() {
 
 export async function getSimilarProducts(productId: string) {
     try {
-        connectToDB();
+        await connectToDB();
 
         const currentProduct = await Product.findById(productId);
 
