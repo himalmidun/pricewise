@@ -9,10 +9,7 @@ import PriceInfoCard from '@/components/PriceInfoCard'
 import ProductCard from '@/components/ProductCard'
 import Modal from '@/components/Modal'
 
-// type Props = { params: {id: string} }
-interface Props{
-  params: {id: string}
-}
+type Props = { params: Promise<{id: string}> }
 // type Params = Promise<{id: string}>
 
 const ProductDetails = async ({ params }: Props) => {
