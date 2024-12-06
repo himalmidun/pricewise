@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 
 const HeroCarousel = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const [productImages, setProductImages] = useState<any[]>([]);
   
   const heroImages = [
@@ -44,9 +44,9 @@ const HeroCarousel = () => {
 
   return (
     <div>
-      {isLoading ? (
+      {/* {isLoading ? (
         <div>Loading Images...</div>
-      ) : (
+      ) : ( */}
         <div className="hero-carousel">
           <Carousel showThumbs={false}
             autoPlay
@@ -72,8 +72,8 @@ const HeroCarousel = () => {
             className="max-xl:hidden absolute -left-[15%] bottom-0 z-0"
           />
         </div>
-      )
-      }
+      {/* )
+      } */}
     </div>
   )
 }
