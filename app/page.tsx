@@ -5,7 +5,15 @@ import { getAllProducts } from "@/lib/actions"
 import ProductCard from "@/components/ProductCard"
 
 const Home = async () => {
-  const allProducts = await getAllProducts();
+  let allProducts = null;
+  try {
+    // const allProducts = await getAllProducts();
+    const allProduct = await getAllProducts();
+    allProducts = allProduct;
+  } catch (error) {
+    console.log(error);
+    throw new Error('Error while fetching all products');
+  }
   return (
     <>
       <section className="px-6 md:px-20 py-24">

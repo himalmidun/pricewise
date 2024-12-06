@@ -70,7 +70,7 @@ export async function getAllProducts() {
     try {
         connectToDB();
 
-        const products = await Product.find();
+        const products = await Product.find({});
         console.log(`All products: ${products}`)
         return products;
     } catch (error) {
