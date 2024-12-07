@@ -9,7 +9,7 @@ const Home = async () => {
   try {
     // const allProducts = await getAllProducts();
     const allProduct = await getAllProducts();
-    allProducts = allProduct;
+    allProducts = allProduct?.reverse();
   } catch (error) {
     console.log(error);
     throw new Error('Error while fetching all products');

@@ -31,6 +31,7 @@ const ProductDetails = async ({ params }: Props) => {
   if(!product) redirect('/')
 
   const similarProducts = await getSimilarProducts(id);
+  similarProducts?.reverse();
   return (
     <div className='product-container'>
       <div className='flex gap-28 xl:flex-row flex-col'>
