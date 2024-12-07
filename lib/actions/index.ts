@@ -70,7 +70,7 @@ export async function getAllProducts() {
     try {
         await connectToDB();
 
-        const products = await Product.find({}).limit(6);
+        const products = await Product.find({});
         console.log(`All products: ${products}`)
         return products;
     } catch (error) {
