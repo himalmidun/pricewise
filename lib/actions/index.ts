@@ -11,6 +11,7 @@ import { redirect } from "next/navigation";
 import axios from "axios";
 import Subscriber from "../models/subscriber.model";
 import { User } from "@/types";
+import { ConnectionPoolClosedEvent } from "mongodb";
 
 
 
@@ -150,13 +151,13 @@ export async function fetchAccessTokenFromRefreshToken(refreshToken: string) {
         const tokenUrl = 'https://oauth2.googleapis.com/token';
 
         // Request payload
-        const params = {
+        const params = new URLSearchParams({
             client_id: process.env.CLIENT_ID || '', // Your client ID
             client_secret: process.env.CLIENT_SECRET || '', // Your client secret
             refresh_token: refreshToken,
             grant_type: 'refresh_token', // Grant type
-            scope: 'https://www.googleapis.com/auth/gmail.send',
-        };
+            // scope: 'https://www.googleapis.com/auth/gmail.send',
+        });
 
 
         const response = await fetch(tokenUrl, {
@@ -164,7 +165,7 @@ export async function fetchAccessTokenFromRefreshToken(refreshToken: string) {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: new URLSearchParams(params)
+            body: params,
         });
 
         if (!response.ok) {
@@ -173,6 +174,7 @@ export async function fetchAccessTokenFromRefreshToken(refreshToken: string) {
         }
         const responseData = await response.json();
         accessToken = responseData?.access_token;
+        console.log('ACCESS TOKEN: ', accessToken);
 
         return accessToken;
 
@@ -181,7 +183,7 @@ export async function fetchAccessTokenFromRefreshToken(refreshToken: string) {
     }
 }
 
-export async function addUserEmailToProduct(productId: string, userEmail: string, accessToken: string, refreshToken: string) {
+export async function addUserEmailToProduct(productId: string, userEmail: string,accessToken: string) {
     try {
         const product = await Product.findById(productId);
         console.log('Product Info from addUserEmailToProduct is printed');
@@ -200,7 +202,7 @@ export async function addUserEmailToProduct(productId: string, userEmail: string
         if (!subscriber) {
             const newSubscriber = new Subscriber({
                 email: userEmail,
-                refreshToken: refreshToken,
+                refreshToken: '',
             });
             // const newUser = await Subscriber.findOneAndUpdate({ }, newSubscriber, { upsert: true, new: true });
             // const newProduct = await Product.findOneAndUpdate({ url: scrapedProduct.url }, product, { upsert: true, new: true });
@@ -216,7 +218,7 @@ export async function addUserEmailToProduct(productId: string, userEmail: string
         const emailContent = await generateEmailBody(product, "WELCOME");
         console.log('reached generate email');
 
-        await sendEmail(emailContent, [userEmail], refreshToken, accessToken);
+        await sendEmail(emailContent, [userEmail], accessToken);
 
     } catch (error) {
         console.log('error in addUserEmailToProduct');
@@ -255,5 +257,21 @@ export async function getProductImages(){
         return carouselImages;
     } catch (error) {
         console.log(error)
+    }
+}
+
+export async function findRefreshTokenFromSender(){
+    try {
+        const senderEmail = process.env.SENDER_EMAIL;
+        console.log('Sender Email: ', senderEmail)
+        const sender = await Subscriber.findOne({email: senderEmail});
+        if(!sender){
+            console.log('Sender not found');
+            return
+        }
+
+        return sender.refreshToken;
+    } catch (error) {
+        
     }
 }

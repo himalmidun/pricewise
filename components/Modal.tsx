@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import { FormEvent, Fragment, useState } from 'react'
 import { Dialog, DialogBackdrop, DialogPanel, Transition} from '@headlessui/react'
-import { addUserEmailToProduct, getAcessToken, getUserAuthorization } from '@/lib/actions'
+import { addUserEmailToProduct, fetchAccessTokenFromRefreshToken, findRefreshTokenFromSender } from '@/lib/actions'
 
 interface Props{
     productId: string
@@ -19,14 +19,19 @@ const Modal = ({productId}: Props) => {
         e.preventDefault();
         setIsSubmitting(true);
 
-        sessionStorage.setItem('productId', productId);
-        sessionStorage.setItem('email', email);
-
         //getting user authorization
-        await getUserAuthorization();
-        setIsSubmitting(false);
-        setEmail('');
-        closeModal();
+        // await getUserAuthorization();
+        try {
+            const refreshToken = await findRefreshTokenFromSender();
+            const accessToken = await fetchAccessTokenFromRefreshToken(refreshToken);
+            if(!accessToken) throw new Error('Access token could not be fetched');
+            addUserEmailToProduct(productId, email, accessToken? accessToken : '',);
+            setIsSubmitting(false);
+            setEmail('');
+            closeModal();
+        } catch (error) {
+            console.log(error);
+        }
     }
     return (
         <>
