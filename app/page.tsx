@@ -5,15 +5,17 @@ import { getAllProducts } from "@/lib/actions"
 import ProductCard from "@/components/ProductCard"
 
 const Home = async () => {
-  let allProducts = null;
-  try {
-    // const allProducts = await getAllProducts();
-    const allProduct = await getAllProducts();
-    allProducts = allProduct?.reverse();
-  } catch (error) {
-    console.log(error);
-    throw new Error('Error while fetching all products');
-  }
+  // // // let allProducts = null;
+  // // try {
+  // //   // const allProducts = await getAllProducts();
+  // //   const allProducts = await getAllProducts();
+  // //   // allProducts = allProduct?.reverse();
+  // } catch (error) {
+  //   console.log(error);
+  //   throw new Error('Error while fetching all products');
+  // }
+
+  const allProducts = await getAllProducts();
   return (
     <>
       <section className="px-6 md:px-20 py-24">
