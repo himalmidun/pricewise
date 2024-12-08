@@ -1,11 +1,11 @@
-"use client"
+'use client'
 
 import Image from "next/image"
 import Searchbar from "@/components/Searchbar"
 import HeroCarousel from "@/components/HeroCarousel"
 import { getAllProducts } from "@/lib/actions"
 import ProductCard from "@/components/ProductCard"
-import { useState, useEffect } from "react"
+
 
 const Home = async () => {
   // // // let allProducts = null;
@@ -18,23 +18,9 @@ const Home = async () => {
   //   throw new Error('Error while fetching all products');
   // }
 
-  // const allProducts = await getAllProducts();
+  const allProducts = await getAllProducts();
   console.log('Home page')
 
-  const [allProducts, setAllProducts] = useState<any[]>([]); // Default to empty array.
-
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const products = await getAllProducts();
-        setAllProducts(products || []);
-      } catch (error) {
-        console.error("Error while fetching all products:", error);
-      }
-    }
-
-    fetchProducts();
-  }, []);
   return (
     <>
       <section className="px-6 md:px-20 py-24">
@@ -43,10 +29,10 @@ const Home = async () => {
             <p className="small-text">
               Smart Shoppring Starts Here:
               <Image
-              src = "/assets/icons/arrow-right.svg"
-              alt="arrow-right"
-              width={16}
-              height={16} />
+                src="/assets/icons/arrow-right.svg"
+                alt="arrow-right"
+                width={16}
+                height={16} />
             </p>
 
             <h1 className="head-text">
@@ -60,7 +46,7 @@ const Home = async () => {
 
             <Searchbar />
           </div>
-          
+
           <HeroCarousel />
         </div>
       </section>
@@ -69,7 +55,7 @@ const Home = async () => {
         <h2 className="section-text">Trending</h2>
 
         <div className="flex flex-wrap gap-x-8 gap-y-16">
-          {allProducts?.map((product) =>(
+          {allProducts?.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
         </div>
