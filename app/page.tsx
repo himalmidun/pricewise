@@ -3,6 +3,7 @@ import Searchbar from "@/components/Searchbar"
 import HeroCarousel from "@/components/HeroCarousel"
 import { getAllProducts } from "@/lib/actions"
 import ProductCard from "@/components/ProductCard"
+import { useState, useEffect } from "react"
 
 const Home = async () => {
   // // // let allProducts = null;
@@ -15,8 +16,23 @@ const Home = async () => {
   //   throw new Error('Error while fetching all products');
   // }
 
-  const allProducts = await getAllProducts();
+  // const allProducts = await getAllProducts();
   console.log('Home page')
+
+  const [allProducts, setAllProducts] = useState<any[]>([]); // Default to empty array.
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const products = await getAllProducts();
+        setAllProducts(products || []);
+      } catch (error) {
+        console.error("Error while fetching all products:", error);
+      }
+    }
+
+    fetchProducts();
+  }, []);
   return (
     <>
       <section className="px-6 md:px-20 py-24">
