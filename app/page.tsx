@@ -3,14 +3,17 @@ import Searchbar from "@/components/Searchbar"
 import HeroCarousel from "@/components/HeroCarousel"
 import { getAllProducts } from "@/lib/actions"
 import ProductCard from "@/components/ProductCard"
+import { Product } from "@/types"
 
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 const Home = async () => {
-  // // // let allProducts = null;
-  // // try {
-  // //   // const allProducts = await getAllProducts();
-  // //   const allProducts = await getAllProducts();
-  // //   // allProducts = allProduct?.reverse();
+  // let allProducts= null;
+  // try {
+  //   const allProduct = await getAllProducts();
+  //   allProducts = allProduct?.reverse();
   // } catch (error) {
   //   console.log(error);
   //   throw new Error('Error while fetching all products');
