@@ -16,6 +16,7 @@ const Home = async () => {
   // }
 
   const allProducts = await getAllProducts();
+  console.log('Home page')
   return (
     <>
       <section className="px-6 md:px-20 py-24">
