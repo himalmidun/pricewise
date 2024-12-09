@@ -108,12 +108,14 @@ export const sendEmail = async (emailContent: EmailContent, sendTo: string[], ac
     if(!transporter) throw new Error('Transporter is not created');
 
     console.log('ready to send email from sendEmail');
-    transporter.sendMail(mailOptions, (error: any, info: any) => {
-      if (error) return console.log(error);
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Info after trying sending email: ', info);
+    // transporter.sendMail(mailOptions, (error: any, info: any) => {
+    //   if (error) return console.log(error);
   
-      console.log('Email sent: ', info);
-    })
-    console.log('Hopefully message is sent');
+    //   console.log('Email sent: ', info);
+    // })
+    // console.log('Hopefully message is sent');
     
   } catch (error) {
     console.log('Error Sending Email: ',error)
