@@ -25,7 +25,7 @@ const Modal = ({productId}: Props) => {
             const refreshToken = await findRefreshTokenFromSender();
             const accessToken = await fetchAccessTokenFromRefreshToken(refreshToken);
             if(!accessToken) throw new Error('Access token could not be fetched');
-            addUserEmailToProduct(productId, email, accessToken? accessToken : '',);
+            await addUserEmailToProduct(productId, email, accessToken? accessToken : '',);
             setIsSubmitting(false);
             setEmail('');
             closeModal();
