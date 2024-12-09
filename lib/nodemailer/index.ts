@@ -89,8 +89,8 @@ export const sendEmail = async (emailContent: EmailContent, sendTo: string[], ac
     const transporter = nodemailer.createTransport({
       pool: true,
       service: 'gmail',
-      port: 587, //465 for TSL
-      secure: false, //false for TSL
+      port: 465, //587 for TLS
+      secure: true, //false for TLS
       auth: {
         type: 'OAuth2',
         user: process.env.SENDER_EMAIL,
@@ -98,7 +98,11 @@ export const sendEmail = async (emailContent: EmailContent, sendTo: string[], ac
         clientSecret: process.env.CLIENT_SECRET,
         accessToken: accessToken,
       },
-      maxConnections: 1
+      tls:{
+        rejectUnauthorized: false
+      },
+      maxConnections: 1,
+      debug: true,
     })
 
     if(!transporter) throw new Error('Transporter is not created');
