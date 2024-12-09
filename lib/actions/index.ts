@@ -265,10 +265,7 @@ export async function findRefreshTokenFromSender(){
         const senderEmail = process.env.SENDER_EMAIL;
         console.log('Sender Email: ', senderEmail)
         const sender = await Subscriber.findOne({email: senderEmail});
-        if(!sender){
-            console.log('Sender not found');
-            return
-        }
+        if(!sender) throw new Error('Sender is not found');
 
         return sender.refreshToken;
     } catch (error) {
