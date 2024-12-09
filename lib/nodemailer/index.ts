@@ -78,32 +78,41 @@ export const generateEmailBody = async (product: EmailProductInfo, type: Notific
 
 export const sendEmail = async (emailContent: EmailContent, sendTo: string[], accessToken:string) => {
   
-  const mailOptions = {
-    from: process.env.SENDER_EMAIL,
-    to: sendTo,
-    html: emailContent.body,
-    subject: emailContent.subject
+
+  try {
+    const mailOptions = {
+      from: process.env.SENDER_EMAIL,
+      to: sendTo,
+      html: emailContent.body,
+      subject: emailContent.subject
+    }
+    const transporter = nodemailer.createTransport({
+      pool: true,
+      service: 'gmail',
+      port: 465, //587 for TSL
+      secure: true, //false for TSL
+      auth: {
+        type: 'OAuth2',
+        user: process.env.SENDER_EMAIL,
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        accessToken: accessToken,
+      },
+      maxConnections: 1
+    })
+
+    if(!transporter) throw new Error('Transporter is not created');
+
+    console.log('ready to send email from sendEmail');
+    transporter.sendMail(mailOptions, (error: any, info: any) => {
+      if (error) return console.log(error);
+  
+      console.log('Email sent: ', info);
+    })
+    console.log('Hopefully message is sent');
+    
+  } catch (error) {
+    console.log('Error Sending Email: ',error)
   }
-  const transporter = nodemailer.createTransport({
-    pool: true,
-    service: 'gmail',
-    port: 465, //587 for TSL
-    secure: true, //false for TSL
-    auth: {
-      type: 'OAuth2',
-      user: process.env.SENDER_EMAIL,
-      clientId: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      accessToken: accessToken,
-    },
-    maxConnections: 1
-  })
 
-  console.log('ready to send email from sendEmail');
-  transporter.sendMail(mailOptions, (error: any, info: any) => {
-    if (error) return console.log(error);
-
-    console.log('Email sent: ', info);
-  })
-  console.log('Hopefully message is sent');
 }
