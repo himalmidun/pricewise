@@ -89,8 +89,8 @@ export const sendEmail = async (emailContent: EmailContent, sendTo: string[], ac
     const transporter = nodemailer.createTransport({
       pool: true,
       service: 'gmail',
-      port: 465, //587 for TSL
-      secure: true, //false for TSL
+      port: 587, //465 for TSL
+      secure: false, //false for TSL
       auth: {
         type: 'OAuth2',
         user: process.env.SENDER_EMAIL,
