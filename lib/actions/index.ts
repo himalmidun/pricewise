@@ -184,6 +184,7 @@ export async function fetchAccessTokenFromRefreshToken(refreshToken: string) {
 }
 
 export async function addUserEmailToProduct(productId: string, userEmail: string,accessToken: string) {
+    connectToDB();
     try {
         const product = await Product.findById(productId);
         console.log('Product Info from addUserEmailToProduct is printed');
@@ -235,6 +236,9 @@ export async function addUserEmailToProduct(productId: string, userEmail: string
 //For carousel
 export async function getProductImages(){
     try {
+
+        connectToDB();
+
         const carouselImages: any = [];
         const products = await Product.find({});
 
@@ -262,11 +266,11 @@ export async function getProductImages(){
 
 export async function findRefreshTokenFromSender(){
     try {
+        connectToDB();
         const senderEmail = process.env.SENDER_EMAIL;
         console.log('Sender Email: ', senderEmail)
         const sender = await Subscriber.findOne({email: senderEmail});
         if(!sender) throw new Error('Sender is not found');
-
         return sender.refreshToken;
     } catch (error) {
         console.log(error)
