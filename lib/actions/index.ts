@@ -187,7 +187,7 @@ export async function addUserEmailToProduct(productId: string, userEmail: string
     try {
         const product = await Product.findById(productId);
         console.log('Product Info from addUserEmailToProduct is printed');
-        if (!product) return;
+        if (!product) throw new Error('No product found');
 
         const subscriber = await Subscriber.findOne({ email: userEmail });
 
@@ -272,6 +272,6 @@ export async function findRefreshTokenFromSender(){
 
         return sender.refreshToken;
     } catch (error) {
-        
+        console.log(error)
     }
 }

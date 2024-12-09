@@ -76,20 +76,10 @@ export const generateEmailBody = async (product: EmailProductInfo, type: Notific
 
 
 
-export const sendEmail = async (emailContent: EmailContent, sendTo: string[], refreshToken: string, accessToken?:string) => {
+export const sendEmail = async (emailContent: EmailContent, sendTo: string[], accessToken:string) => {
   
-  let ACCESS_TOKEN = null;
-
-  if(accessToken){
-    ACCESS_TOKEN = accessToken;
-  }
-  else{
-    const access_token = await fetchAccessTokenFromRefreshToken(refreshToken);
-    ACCESS_TOKEN = access_token;
-  }
-
   const mailOptions = {
-    from: '123kingkim@gmail.com',
+    from: process.env.SENDER_EMAIL,
     to: sendTo,
     html: emailContent.body,
     subject: emailContent.subject
@@ -101,10 +91,10 @@ export const sendEmail = async (emailContent: EmailContent, sendTo: string[], re
     secure: true, //false for TSL
     auth: {
       type: 'OAuth2',
-      user: "secondtestuser2@gmail.com",
+      user: process.env.SENDER_EMAIL,
       clientId: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      accessToken: ACCESS_TOKEN,
+      accessToken: accessToken,
     },
     maxConnections: 1
   })
@@ -115,4 +105,5 @@ export const sendEmail = async (emailContent: EmailContent, sendTo: string[], re
 
     console.log('Email sent: ', info);
   })
+  console.log('Hopefully message is sent');
 }
