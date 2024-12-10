@@ -1,3 +1,4 @@
+import { fetchAccessTokenFromRefreshToken, findRefreshTokenFromSender } from "@/lib/actions";
 import Product from "@/lib/models/product.model";
 import Subscriber from "@/lib/models/subscriber.model";
 import { connectToDB } from "@/lib/mongoose";
@@ -54,7 +55,11 @@ export async function GET() {
                         const subscriber = await Subscriber.findById(userId);
                         if (!subscriber) throw new Error('subscriber not found');
 
-                        await sendEmail(emailContent, userEmails, subscriber.refreshToken);
+                        const refreshToken = await findRefreshTokenFromSender();
+                        const accessToken = await fetchAccessTokenFromRefreshToken(refreshToken);
+                        if (!accessToken) throw new Error('Access token could not be fetched');
+
+                        await sendEmail(emailContent, subscriber.email, accessToken);
                     } catch (error) {
                         console.log(error);
                     }
@@ -67,9 +72,9 @@ export async function GET() {
         );
 
         return NextResponse.json({
-            message:'OK', data: updateProducts
+            message: 'OK', data: updateProducts
         })
-        
+
 
     } catch (error) {
         throw new Error(`Error in GET: ${error}`);

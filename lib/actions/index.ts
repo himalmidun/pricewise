@@ -72,6 +72,7 @@ export async function getAllProducts() {
         connectToDB();
 
         const products = await Product.find();
+        // const products = await Product.find().sort({ createdAt: -1 }).limit(6);
         console.log('All products loaded');
         return products;
     } catch (error) {
@@ -89,7 +90,7 @@ export async function getSimilarProducts(productId: string) {
 
         const similarProducts = await Product.find({
             _id: { $ne: productId },
-        }).limit(3);
+        }).sort({ createdAt: -1 }).limit(3);
 
         return similarProducts;
     } catch (error) {
@@ -184,8 +185,10 @@ export async function fetchAccessTokenFromRefreshToken(refreshToken: string) {
 }
 
 export async function addUserEmailToProduct(productId: string, userEmail: string,accessToken: string) {
-    connectToDB();
     try {
+        
+        connectToDB();
+
         const product = await Product.findById(productId);
         console.log('Product Info from addUserEmailToProduct is printed');
         if (!product) throw new Error('No product found');
