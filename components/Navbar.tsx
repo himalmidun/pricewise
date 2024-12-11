@@ -1,9 +1,11 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import NavSearch from './NavSearch'
+import NavSearch from '@/components/NavSearch'
+import { getProductTitles } from '@/lib/actions'
 
 
-const Navbar = () => {
+const Navbar = async () => {
+  const productTitles = await getProductTitles();
   return (
     <header className='w-full'>
       <nav className='nav'>
@@ -19,7 +21,7 @@ const Navbar = () => {
           </p>
         </Link>
         
-        <NavSearch />
+        <NavSearch titles={productTitles} />
       </nav>
     </header >
   )

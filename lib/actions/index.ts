@@ -12,6 +12,7 @@ import axios from "axios";
 import Subscriber from "../models/subscriber.model";
 import { User } from "@/types";
 import { ConnectionPoolClosedEvent } from "mongodb";
+import { createServerSearchParamsForServerPage } from "next/dist/server/request/search-params";
 
 
 
@@ -277,5 +278,19 @@ export async function findRefreshTokenFromSender(){
         return sender.refreshToken;
     } catch (error) {
         console.log(error)
+    }
+}
+
+export async function getProductTitles(){
+    try {
+        const allProudcts = await getAllProducts();
+        const titles = allProudcts?.map(({_id, title}) => ({
+            productId: _id,
+            productTitle: title,
+        }));
+
+        return JSON.parse(JSON.stringify(titles));
+    } catch (error) {
+        console.log('Error fetching titles: ', error);
     }
 }
