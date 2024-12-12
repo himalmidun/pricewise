@@ -4,10 +4,12 @@ import HeroCarousel from "@/components/HeroCarousel"
 import { getAllProducts } from "@/lib/actions"
 import ProductCard from "@/components/ProductCard"
 import { Product } from "@/types"
+import PagenationContent from "@/components/PagenationContent"
 
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
 
 const Home = async () => {
   // let allProducts= null;
@@ -55,11 +57,12 @@ const Home = async () => {
       <section className="trending-section">
         <h2 className="section-text">Trending</h2>
 
-        <div className="flex flex-wrap gap-x-8 gap-y-16">
+        {/* <div className="flex flex-wrap gap-x-8 gap-y-16">
           {allProducts?.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
-        </div>
+        </div> */}
+        <PagenationContent products={JSON.parse(JSON.stringify(allProducts))} />
       </section>
     </>
   )
