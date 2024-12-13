@@ -120,7 +120,7 @@ const NavSearch = ({ titles }: NavSearchProps) => {
       <div className='flex flex-shrink-0'>
 
         <Tooltip text="Developer's Contact">
-          <Link href='https://github.com/himalmidun' target='_blank'>
+          <Link href='https://www.linkedin.com/in/himal-midun/' target='_blank'>
           <Image
             src='/assets/icons/user.svg'
             alt='user'
