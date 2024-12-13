@@ -6,6 +6,7 @@ import { getProductTitles } from '@/lib/actions'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import axios from 'axios'
+import Tooltip from '@/components/Tooltip'
 
 interface Props {
   productTitle: string,
@@ -43,16 +44,16 @@ const NavSearch = ({ titles }: NavSearchProps) => {
     }
   }
 
-  const [likes,  setLikes] = useState(0);
+  const [likes, setLikes] = useState(0);
 
   useEffect(() => {
-    const fetchLikes = async () =>{
-        try {
-          const response = await axios.get('https://pricewise-like-count.123kingkim.workers.dev');
-          setLikes(response.data.likes);
-        } catch (error) {
-          console.log('Error fetching likes count: ', error);
-        }
+    const fetchLikes = async () => {
+      try {
+        const response = await axios.get('https://pricewise-like-count.123kingkim.workers.dev');
+        setLikes(response.data.likes);
+      } catch (error) {
+        console.log('Error fetching likes count: ', error);
+      }
     }
 
     fetchLikes();
@@ -60,10 +61,10 @@ const NavSearch = ({ titles }: NavSearchProps) => {
 
   const handleLikeClick = async () => {
     try {
-      
-        const response = await axios.post('https://pricewise-like-count.123kingkim.workers.dev')
-        setLikes(response.data.likes);
-      
+
+      const response = await axios.post('https://pricewise-like-count.123kingkim.workers.dev')
+      setLikes(response.data.likes);
+
     } catch (error) {
       console.log('Error handling like click: ', error);
     }
@@ -116,13 +117,18 @@ const NavSearch = ({ titles }: NavSearchProps) => {
         <span className='text-sm text-black font-normal'>{likes}</span>
       </div>
 
-      <Image
-        src='/assets/icons/user.svg'
-        alt='user'
-        width={28}
-        height={28}
-        className='object-contain'
-      />
+      <div className='flex flex-shrink-0'>
+
+        <Tooltip text="Developer's Contact">
+          <Image
+            src='/assets/icons/user.svg'
+            alt='user'
+            width={28}
+            height={28}
+            className='object-contain'
+          />
+        </Tooltip>
+      </div>
 
     </div>
   )
