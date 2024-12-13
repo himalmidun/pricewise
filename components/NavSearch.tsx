@@ -120,6 +120,7 @@ const NavSearch = ({ titles }: NavSearchProps) => {
       <div className='flex flex-shrink-0'>
 
         <Tooltip text="Developer's Contact">
+          <Link href='https://github.com/himalmidun' target='_blank'>
           <Image
             src='/assets/icons/user.svg'
             alt='user'
@@ -127,6 +128,7 @@ const NavSearch = ({ titles }: NavSearchProps) => {
             height={28}
             className='object-contain'
           />
+          </Link>
         </Tooltip>
       </div>
 

@@ -50,7 +50,7 @@ const Home = async () => {
             <Searchbar />
           </div>
 
-          <HeroCarousel />
+          <HeroCarousel products={JSON.parse(JSON.stringify(allProducts))} />
         </div>
       </section>
 
